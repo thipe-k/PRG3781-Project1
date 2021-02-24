@@ -1,0 +1,1 @@
+This folder is for all classes, interfaces and enums that directly integrate with all packages . all helper functions should be in this folder 

@@ -1,0 +1,1 @@
+This folder is for all classes and interfaces that directly integrate with Events
