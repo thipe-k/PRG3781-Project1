@@ -59,8 +59,9 @@ public class FileHandler {
    {
       // This method takes data in a form of a string and writes it to a file
       try {
-         FileWriter writer = new FileWriter(fileName);
+         FileWriter writer = new FileWriter(fileName, true);
          writer.write(data);
+         writer.write("\n"); // move carsor to new line
          writer.close();
          return true;
       } catch (Exception e) {
