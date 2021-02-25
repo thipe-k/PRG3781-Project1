@@ -1,4 +1,4 @@
-package EventPackage;
+package ApplicationLayer.EventPackage;
 
 import java.util.Date;
 

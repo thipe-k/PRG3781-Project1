@@ -1,4 +1,4 @@
-package Utility;
+package ApplicationLayer.Utility;
 
 public enum DefaultEvents{
    WEDDINGEVENT,

@@ -1,4 +1,4 @@
-package FoodPackage;
+package ApplicationLayer.FoodPackage;
 public interface IFood {
    public double getPrice();
    public String getAdultMeal();
