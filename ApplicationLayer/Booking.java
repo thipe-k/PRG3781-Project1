@@ -1,5 +1,6 @@
+package ApplicationLayer;
 import java.util.Date;
-import EventPackage.*;
+import ApplicationLayer.EventPackage.*;
 
 public class Booking {
    private IEvent event;

@@ -1,7 +1,6 @@
-package EventPackage;
+package ApplicationLayer.EventPackage;
 import java.util.Date;
-
-public class YearEndFunctionEvent extends Event implements IEvent {
+public class BirthDayEvent extends Event implements IEvent {
   
    @Override
    public String getLocation() {

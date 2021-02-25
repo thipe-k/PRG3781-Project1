@@ -1,4 +1,4 @@
-package FoodPackage;
+package ApplicationLayer.FoodPackage;
 public class Meal {
    private String _starter;
    private String _main;

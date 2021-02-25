@@ -1,8 +1,8 @@
-package EventPackage;
+package ApplicationLayer.EventPackage;
 import java.util.Date;
 
-public class WeddingEvent extends Event implements IEvent  {
-
+public class YearEndFunctionEvent extends Event implements IEvent {
+  
    @Override
    public String getLocation() {
       // TODO Auto-generated method stub
@@ -25,6 +25,5 @@ public class WeddingEvent extends Event implements IEvent  {
    public Date getDate() {
       // TODO Auto-generated method stub
       return null;
-   }
-   
+   } 
 }

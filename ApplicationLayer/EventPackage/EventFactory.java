@@ -1,5 +1,5 @@
-package EventPackage;
-import Utility.*;
+package ApplicationLayer.EventPackage;
+import ApplicationLayer.Utility.*;
 public class EventFactory {
    public Event getEvent(DefaultEvents event)
    {
