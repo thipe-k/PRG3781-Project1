@@ -5,6 +5,10 @@ public enum DefaultEvents{
    BIRTHDAYEVENT,
    YEARENDFUNCTIONEVENT,
    BABTISMEVENT;
+   //OTHER
+   //Add another event called OTHER for any other event not part of the defaults
+   // blah
+   // ...
    
    public static DefaultEvents getById(int id)
    {
@@ -16,7 +20,9 @@ public enum DefaultEvents{
          case 3:
             return DefaultEvents.YEARENDFUNCTIONEVENT;   
          case 4:
-            return DefaultEvents.BABTISMEVENT;                                 
+            return DefaultEvents.BABTISMEVENT;   
+         //case 5:
+            // return DefaultEvents.OTHER;                              
          default:
             return null;
       }
