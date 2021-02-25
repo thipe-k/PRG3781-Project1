@@ -89,7 +89,7 @@ public class CleintMenu {
       System.out.println("4 : Year End Function");
       System.out.print("Enter value : ");
       evenType = input.nextByte();
-
+        input.nextLine();
       System.out.print("When is the event ? (dd.mm.yyyy.H) : ");
       dateString = input.nextLine();
       System.out.print("Where is the event (Address) : ");
