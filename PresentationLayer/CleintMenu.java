@@ -14,7 +14,7 @@ public class CleintMenu {
    String dateString;
    String eventlocation;
    short adultAttendee;
-   short minorAddendee;
+   short minorAttendee;
    byte evenType;
    Scanner input = new Scanner(System.in);
 
@@ -57,7 +57,7 @@ public class CleintMenu {
          Date dateOfEvent = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
          EventFactory eventFactory = new EventFactory();
          Event event = eventFactory.getEvent(DefaultEvents.getById(1));
-         event.setValues(eventlocation, dateOfEvent, adultAttendee, minorAddendee);
+         event.setValues(eventlocation, dateOfEvent, adultAttendee, minorAttendee);
   //       Booking booking = new Booking(event, client);
       } catch (Exception e) {
          //TODO: handle exception
@@ -97,12 +97,102 @@ public class CleintMenu {
       System.out.print("How many adults will attend the event: ");
       adultAttendee = input.nextShort();
       System.out.print("How many kids/minors will attend the event: ");
-      minorAddendee = input.nextShort();
+      minorAttendee = input.nextShort();
 
    }
     protected void finalize()
     {
       input.close();
     }
+
+
+ 
+   // String cellNumber;
+   // String email;
+   // String eventlocation;
+   // short adultAttendee;
+  //  short minorAttendee;
+
+
+
+  public boolean checkDate(String date)
+  {
+     //Please confirm if the logic is ok
+   if(date.length()==10 )
+   {
+       String[] split = date.split(".");
+       if(Integer.parseInt(split[1])%2!=0)
+       {
+         if(Integer.parseInt(split[0])  <= 31 )
+         {
+            return true;
+         }
+         else
+         {
+            System.out.println("The month you have selected has 31 days");
+            return false;
+         }   
+       }
+       else
+       {
+         if(Integer.parseInt(split[1])  != 02 )
+         {
+            if(Integer.parseInt(split[0])  <= 30 )
+            {
+               return true;
+            }
+            else
+            {
+               System.out.println("The month you have selected has 30 days");
+               return false;
+            }
+         }
+         else
+         {
+            if(Integer.parseInt(split[0])  <= 28 )
+            {
+               return true;
+            }
+            else
+            {
+               System.out.println("February has 28 days");
+               return false;
+            }
+         }
+       }
+   }
+   else
+   {
+      System.out.println("Please follow the pattern for the date");
+      return false;
+   }
+  }
+
+
+  public boolean checkName(String name)
+  {
+   if(name!="")
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+  
+  }
+  public boolean checkSurname(String name)
+  {
+   if(name!="")
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+  
+  }
+
 
 }
