@@ -58,7 +58,7 @@ public class CleintMenu {
          EventFactory eventFactory = new EventFactory();
          Event event = eventFactory.getEvent(DefaultEvents.getById(1));
          event.setValues(eventlocation, dateOfEvent, adultAttendee, minorAddendee);
-         Booking booking = new Booking(event, client);
+  //       Booking booking = new Booking(event, client);
       } catch (Exception e) {
          //TODO: handle exception
       }
