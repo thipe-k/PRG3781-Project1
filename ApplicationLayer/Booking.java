@@ -8,7 +8,7 @@ public class Booking {
    private String bookingNum;
    private Date dateOfConfirmation;
    private Client client;
-   private Payment payment;
+   //private Payment payment;
    private Decoration decoration;
 
    public IEvent getEvent() {
@@ -55,13 +55,13 @@ public class Booking {
       this.client = client;
    }
 
-   public Payment getPayment() {
-      return this.payment;
-   }
+  // public Payment getPayment() {
+ //     return this.payment;
+  // }
 
-   public void setPayment(Payment payment) {
-      this.payment = payment;
-   }
+ //  public void setPayment(Payment payment) {
+ //     this.payment = payment;
+  // }
 
    public Decoration getDecoration() {
       return this.decoration;
