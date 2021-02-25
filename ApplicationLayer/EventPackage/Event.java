@@ -8,6 +8,13 @@ public abstract class Event {
    protected short adultAttendee;
    protected short minorAddendee;
 
+   public void setValues(String location, Date dateOfEvente, short adultAttendee, short minorAddendee) {
+      this.location = location;
+      this.dateOfEvente = dateOfEvente;
+      this.adultAttendee = adultAttendee;
+      this.minorAddendee = minorAddendee;
+   }
+   
    public String getLocation() {
       return this.location;
    }
@@ -39,5 +46,5 @@ public abstract class Event {
    public void setMinorAddendee(short minorAddendee) {
       this.minorAddendee = minorAddendee;
    }
-
+   public abstract String getType();
 }
