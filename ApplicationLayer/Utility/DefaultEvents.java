@@ -5,6 +5,7 @@ public enum DefaultEvents{
    BIRTHDAYEVENT,
    YEARENDFUNCTIONEVENT,
    BABTISMEVENT;
+   //Add another event called OTHER for any other event not part of the defaults
    
    public static DefaultEvents getById(int id)
    {
