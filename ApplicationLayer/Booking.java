@@ -1,21 +1,25 @@
 package ApplicationLayer;
+import java.io.Serializable;
 import java.util.Date;
 import ApplicationLayer.EventPackage.*;
+import DataAccessLayer.FileHandler;
 
-public class Booking {
-   private IEvent event;
+public class Booking implements Serializable {
+   private static final long serialVersionUID = 1L;
+   private String bookingNumber;
+   private Event event;
    private boolean isConfirmed;
    private String bookingNum;
    private Date dateOfConfirmation;
    private Client client;
-   //private Payment payment;
+   private Payment payment;
    private Decoration decoration;
 
-   public IEvent getEvent() {
+   public Event getEvent() {
       return this.event;
    }
 
-   public void setEvent(IEvent event) {
+   public void setEvent(Event event) {
       this.event = event;
    }
 
@@ -55,13 +59,13 @@ public class Booking {
       this.client = client;
    }
 
-  // public Payment getPayment() {
- //     return this.payment;
-  // }
+   public Payment getPayment() {
+     return this.payment;
+   }
 
- //  public void setPayment(Payment payment) {
- //     this.payment = payment;
-  // }
+   public void setPayment(Payment payment) {
+     this.payment = payment;
+   }
 
    public Decoration getDecoration() {
       return this.decoration;
@@ -71,11 +75,16 @@ public class Booking {
       this.decoration = decoration;
    }
 
-   public Booking(IEvent event, Client client) {
+   public Booking(Event event, Client client) {
       this.event = event;
       this.client = client;
       this.isConfirmed = false;
+      this.payment = new Payment();
+      FileHandler fileHandler = new FileHandler();
+      bookingNum = fileHandler.getBookingNumber();
    }
-   
+   public String getBookingNumber() {
+      return this.bookingNumber;
+   }
 
 }

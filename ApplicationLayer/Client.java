@@ -1,5 +1,10 @@
 package ApplicationLayer;
-public class Client {
+
+import java.io.Serializable;
+
+public class Client implements Serializable {
+
+   private static final long serialVersionUID = 3L;
    private String firstName;
    private String lastName;
    private String cellNumber;
@@ -44,5 +49,15 @@ public class Client {
       this.cellNumber = cellNumber;
       this.email = email;
    }
+
+   @Override
+   public String toString() {
+      return 
+         "" + getFirstName() + "|" +
+         "" + getLastName() + "|" +
+         "" + getCellNumber() + "|" +
+         "" + getEmail();
+   }
+
 
 }

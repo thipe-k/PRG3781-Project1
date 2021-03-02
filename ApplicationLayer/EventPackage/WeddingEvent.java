@@ -1,5 +1,4 @@
 package ApplicationLayer.EventPackage;
-import java.util.Date;
 
 public class WeddingEvent extends Event   {
 

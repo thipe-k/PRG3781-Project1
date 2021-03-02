@@ -1,8 +1,11 @@
 package ApplicationLayer.EventPackage;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Event {
+public abstract class Event implements Serializable {
+
+   private static final long serialVersionUID = 2L;
    protected String location;
    protected Date dateOfEvente;
    protected short adultAttendee;
@@ -47,4 +50,14 @@ public abstract class Event {
       this.minorAddendee = minorAddendee;
    }
    public abstract String getType();
+
+   @Override
+   public String toString() {
+      return "" + getType() + "|" +
+         "" + getLocation() + "|" +
+         "" + getDateOfEvente() + "|" +
+         "" + getAdultAttendee() + "|" +
+         "" + getMinorAddendee();
+   }
+
 }

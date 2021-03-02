@@ -1,28 +1,10 @@
 package ApplicationLayer.EventPackage;
-import java.util.Date;
-public class BirthDayEvent extends Event implements IEvent {
+
+public class BirthDayEvent extends Event {
   
-   @Override
-   public String getLocation() {
-      // TODO Auto-generated method stub
-      return null;
-   }
 
    @Override
    public String getType() {
-      // TODO Auto-generated method stub
-      return null;
+      return "Birth Day";
    }
-
-   @Override
-   public int getMemberCount() {
-      // TODO Auto-generated method stub
-      return 0;
-   }
-
-   @Override
-   public Date getDate() {
-      // TODO Auto-generated method stub
-      return null;
-   } 
 }

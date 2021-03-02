@@ -1,28 +1,9 @@
 package ApplicationLayer.EventPackage;
-import java.util.Date;
-public class BabtismEvent extends Event implements IEvent {
-  
-   @Override
-   public String getLocation() {
-      // TODO Auto-generated method stub
-      return null;
-   }
+public class BabtismEvent extends Event  {
 
    @Override
    public String getType() {
-      // TODO Auto-generated method stub
-      return null;
+      return "Babtism Event";
    }
-
-   @Override
-   public int getMemberCount() {
-      // TODO Auto-generated method stub
-      return 0;
-   }
-
-   @Override
-   public Date getDate() {
-      // TODO Auto-generated method stub
-      return null;
-   } 
+  
 }
