@@ -6,6 +6,13 @@
    "configurations": [
       {
          "type": "java",
+         "name": "Launch BookingSytem",
+         "request": "launch",
+         "mainClass": "BookingSytem",
+         "projectName": "PRG3781-Project1_8e60e8c3"
+      },
+      {
+         "type": "java",
          "name": "Launch Current File",
          "request": "launch",
          "mainClass": "${file}"

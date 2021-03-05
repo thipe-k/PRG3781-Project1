@@ -2,9 +2,15 @@ package PresentationLayer;
 import ApplicationLayer.Utility.*;
 import ApplicationLayer.*;
 import ApplicationLayer.EventPackage.*;
+import ApplicationLayer.FoodPackage.FoodFactory;
+import ApplicationLayer.FoodPackage.IFood;
+
 import java.util.Scanner;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 public class CleintMenu {
 
    String firstName;
@@ -16,8 +22,13 @@ public class CleintMenu {
    short adultAttendee;
    short minorAttendee;
    int evenType;
+   int adultFood ;
+   int minorFood ;
+   IFood foodObject;
+   List<String[]>selecedFood = new ArrayList <String[]>();
    boolean isDecorationNeeded;
    Scanner input = new Scanner(System.in);
+   FoodFactory foodfactory = new  FoodFactory();
 
    public void mainMenu()
    {
@@ -64,6 +75,7 @@ public class CleintMenu {
          System.out.println("Booking process almost complete, please confirm your details");
          System.out.println(client.toString());
          System.out.println(event.toString());
+         System.out.println("The total is:"+foodObject.getPrice(selecedFood, event));
          System.out.println("Booking complete ");
          System.out.println("Your Booking Number is : " + booking.getBookingNum());
          Operations os = new Operations();
@@ -110,11 +122,47 @@ public class CleintMenu {
       adultAttendee = input.nextShort();
       System.out.print("How many kids/minors will attend the event: ");
       minorAttendee = input.nextShort();
+     
+      foodObject = foodfactory.getfood(DefaultEvents.getById(evenType));
+      System.out.println("Select Adult Food");
+      
+      int c = 1 ;
+      for (String[] foodz : foodObject.getAdultMeal()) {
+       
+         System.out.println(c+", "+ foodz[0]+" R"+ foodz[1]);
+         c++;
+      }
+      System.out.println("Enter a value : "); 
+      adultFood = input.nextInt();
+      selecedFood.add(foodObject.getAdultMeal().get(adultFood-1));
+      System.out.println("Select Minor Food");
+      c= 1;
+      for (String[] foodz : foodObject.getMinorMeal()) {
+       
+         System.out.println(c+", "+ foodz[0]+" R"+ foodz[1]);
+         c++;
+      }
+      System.out.println("Enter a value : "); 
+      minorFood = input.nextInt();
+      selecedFood.add(foodObject.getMinorMeal().get(minorFood-1));
+
+   try{
+      
+         Date dateOfEvent = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
+         EventFactory eventFactory = new EventFactory();
+         Event event = eventFactory.getEvent(DefaultEvents.getById(evenType));
+         event.setValues(eventlocation, dateOfEvent, adultAttendee, minorAttendee);
+
+         System.out.println("The total is:"+foodObject.getPrice(selecedFood, event));
+   }
+   catch( Exception e){}
+     
+   
       System.out.println("Do you need decoration for the event ?");
       System.out.println("1 : YES, I need decoration");
       System.out.println("2 : NO, Thank you.");
       System.out.println("Enter a value : "); 
-
+  
       isDecorationNeeded = (input.nextShort() == 1) ? true: false;
       if(isDecorationNeeded)
       {
@@ -125,7 +173,7 @@ public class CleintMenu {
          System.out.println("Decoration not needed.");
       
       }
-      System.out.println("Food questions,  "); // code for food section will go here
+      
       
 
    }

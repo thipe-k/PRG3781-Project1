@@ -22,6 +22,7 @@ public class BookingSytem {
          AdminMenu menu = new AdminMenu();
          menu.showBookings();
       }
+      
 
    }
 }
