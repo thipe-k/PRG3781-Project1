@@ -13,24 +13,20 @@ import java.util.Date;
 import java.util.List;
 public class CleintMenu {
 
-   String firstName;
-   String lastName;
-   String cellNumber;
-   String email;
-   String dateString;
-   String eventlocation;
-   short adultAttendee;
-   short minorAttendee;
-   int evenType;
-   int adultFood ;
-   int minorFood ;
+   Operations os = new Operations();
+
+
    IFood foodObject;
-   List<String[]>selecedFood = new ArrayList <String[]>();
+   Theme theme ;
+   Decoration decoration;
+   Client client;
+   Event event;
+   List<String[]>selectedFood = new ArrayList <String[]>();
    boolean isDecorationNeeded;
    Scanner input = new Scanner(System.in);
    FoodFactory foodfactory = new  FoodFactory();
 
-   public void mainMenu()
+   public void mainMenu() throws Exception
    {
       System.out.println("Welcome to Online Envent booking");
       System.out.println("1 : Book An Event");
@@ -45,10 +41,65 @@ public class CleintMenu {
             book();
             break;
          case 2:
-            
+            System.out.print("Enter Booking Number : ");
+            input.nextLine();
+            String bookingNumber = input.nextLine();
+            Booking booking = os.getBooking(bookingNumber);
+            if(booking == null)
+            {
+               System.out.println("Booking Number : " + bookingNumber + "does not exist");
+            }
+            else{
+               System.out.println("--------------Booking Details of "+ booking.getBookingNum()+"-------------");
+               System.out.println("Status \t : "+ booking.getStatus());
+               System.out.println("Type \t : "+ booking.getEvent().getType());
+               System.out.println("Owner \t : " + booking.getClient().getDetails());
+               System.out.println("Contacts \t : "+ booking.getClient().getContactDetails());
+               if(booking.getDecoration() != null){System.out.println("Decoration Theme \t : " + booking.getDecoration().getTheme());}
+               System.out.println("Date \t : "+ booking.getEvent().getDateOfEvente().toGMTString());
+               System.out.println("-------------------------------------------------------------------------");
+            }
             break;   
          case 3:
-            
+               System.out.print("Enter Booking Number : ");
+               input.nextLine();
+               String bookingNumberr = input.nextLine();
+               Booking bookingg = os.getBooking(bookingNumberr);
+               if(bookingg == null)
+               {
+                  System.out.println("Booking Number : " + bookingNumberr + "does not exist");
+               }
+               else{
+                  if(bookingg.isIsConfirmed())
+                  {
+                     System.out.println("Booking already confirmed");
+                  }
+                  else{
+                     System.out.println("You have to pay %50 of ammount to confirm booking");
+                     System.out.println( "Pay R"+ bookingg.getConfirmationAccount() + " to confirm booking" );
+                     System.out.print("Enter Ammount : ");
+                     double ammount = input.nextDouble();
+                     bookingg.getPayment().setPayedAmount(ammount);
+                     bookingg.confrimBooking();
+                     if (bookingg.isIsConfirmed())
+                     {
+                        System.out.println("Booking Comfirmed");
+
+                        NotificationController  notificationController = new NotificationController();
+                        Notification notification = new Notification(bookingg.getBookingNum(), "Booking has been confirmed");
+                        Notifications notifications = notificationController.getNotifications();
+             
+                        notifications.getNotifications().add(notification);
+                        notificationController.sendNotification(notifications); 
+                        os.bookEvent(bookingg);
+                     }
+                     else{
+                        System.out.println("The amount that you payed is shot by : "+ bookingg.getConfirmationAccount());
+                        System.out.println("Please pay the rest of amount to confirm Booking");
+                        os.bookEvent(bookingg);
+                     }
+                  }
+               }
             break;
          case 4:
             
@@ -59,29 +110,40 @@ public class CleintMenu {
     
 
    }
-   private void book()
+   private void book() throws Exception
    {
       getClientData();
       getEventData();
    
       try {
-         Client client = new Client(firstName, lastName, cellNumber, email);
-         Date dateOfEvent = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
-         EventFactory eventFactory = new EventFactory();
-         Event event = eventFactory.getEvent(DefaultEvents.getById(evenType));
-         event.setValues(eventlocation, dateOfEvent, adultAttendee, minorAttendee);
-         Booking booking = new Booking(event, client);
+     
+ 
+         Booking booking = new Booking(event, client,selectedFood);
          System.out.println("------------------------------------------------");
          System.out.println("Booking process almost complete, please confirm your details");
          System.out.println(client.toString());
          System.out.println(event.toString());
-         System.out.println("The total is:"+foodObject.getPrice(selecedFood, event));
-         System.out.println("Booking complete ");
-         System.out.println("Your Booking Number is : " + booking.getBookingNum());
-         Operations os = new Operations();
-         os.bookEvent(booking);
+         System.out.println("Total Ammount : R" + booking.getAmmount());
+         if(decoration != null)
+         {
+            booking.setDecoration(decoration);
+            System.out.println("Decoration : Theme - "+decoration.getTheme().getEventTheme() );
+         }
 
+         System.out.println( "Enter 1 to Book event or anykey to cancel");
+         System.out.println("Enter value : ");
 
+         String _choice = input.nextLine();
+         if(_choice.equalsIgnoreCase("1"))
+         {
+            System.out.println("Booking complete ");
+            System.out.println("Your Booking Number is : " + booking.getBookingNum());
+            os.bookEvent(booking);
+         }
+         else{
+            System.out.println("Booking canceled, Thank you");
+         }
+  
       } catch (Exception e) {
          System.out.println("An error occured : " + e.toString());
       }
@@ -90,6 +152,11 @@ public class CleintMenu {
    }
    private void getClientData()
    {
+      String firstName;
+      String lastName;
+      String cellNumber;
+      String email;
+
       input.nextLine();
       System.out.print("Enter First Name : ");
       firstName = input.nextLine();
@@ -99,12 +166,20 @@ public class CleintMenu {
       cellNumber = input.nextLine();
       System.out.print("Enter email address : ");
       email = input.nextLine();
-    
+      client = new Client(firstName, lastName, cellNumber, email);
       
    }
 
-   private void getEventData()
+   private void getEventData() throws Exception
    {   
+      String dateString;
+      String eventlocation;
+      short adultAttendee;
+      short minorAttendee;
+      int evenType;
+      int adultFood ;
+      int minorFood ;
+      decoration = null;
       System.out.println("Please Select Type of Event");
       System.out.println("1 : Wedding");
       System.out.println("2 : Birth Day");
@@ -114,8 +189,20 @@ public class CleintMenu {
       evenType = input.nextInt();
       
       input.nextLine();
-      System.out.print("When is the event ? (dd.mm.yyyy.H) : ");
+      System.out.print("When is the event ? (dd.mm.yyyy) : ");
       dateString = input.nextLine();
+      Date dateOfEvent = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
+      boolean dateExist = (os.checkDate(dateOfEvent)) ? true : false ;
+      
+      while (dateExist)
+      {
+         System.out.println("Date already been booked for an event please book another date");
+         System.out.print("When is the event ? (dd.mm.yyyy) : ");
+         dateString = input.nextLine();
+         dateOfEvent = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
+         dateExist = (os.checkDate(dateOfEvent)) ? true : false ;
+      }
+
       System.out.print("Where is the event (Address) : ");
       eventlocation = input.nextLine();
       System.out.print("How many adults will attend the event: ");
@@ -134,7 +221,7 @@ public class CleintMenu {
       }
       System.out.println("Enter a value : "); 
       adultFood = input.nextInt();
-      selecedFood.add(foodObject.getAdultMeal().get(adultFood-1));
+      selectedFood.add(foodObject.getAdultMeal().get(adultFood-1));
       System.out.println("Select Minor Food");
       c= 1;
       for (String[] foodz : foodObject.getMinorMeal()) {
@@ -144,16 +231,16 @@ public class CleintMenu {
       }
       System.out.println("Enter a value : "); 
       minorFood = input.nextInt();
-      selecedFood.add(foodObject.getMinorMeal().get(minorFood-1));
+      selectedFood.add(foodObject.getMinorMeal().get(minorFood-1));
 
    try{
       
-         Date dateOfEvent = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
-         EventFactory eventFactory = new EventFactory();
-         Event event = eventFactory.getEvent(DefaultEvents.getById(evenType));
-         event.setValues(eventlocation, dateOfEvent, adultAttendee, minorAttendee);
+     // Date dateOfEvent = new SimpleDateFormat("dd.MM.yyyy").parse(dateString);
+      EventFactory eventFactory = new EventFactory();
+      event = eventFactory.getEvent(DefaultEvents.getById(evenType));
+      event.setValues(eventlocation, dateOfEvent, adultAttendee, minorAttendee);
 
-         System.out.println("The total is:"+foodObject.getPrice(selecedFood, event));
+         System.out.println("The total food price is : R "+foodObject.getPrice(selectedFood, event));
    }
    catch( Exception e){}
      
@@ -166,22 +253,66 @@ public class CleintMenu {
       isDecorationNeeded = (input.nextShort() == 1) ? true: false;
       if(isDecorationNeeded)
       {
-         System.out.println("Decoration is needed."); 
-         // code for decorations will go here
+        decorationMenu();    
       } 
       {
          System.out.println("Decoration not needed.");
+         input.nextLine();
       
       }
       
-      
+
+
 
    }
+
     protected void finalize()
     {
       input.close();
     }
 
+    private void decorationMenu()
+    {
+       input.nextLine();
+       String color1;
+       String color2;
+       String eventTheme;
+       boolean balloons;
+       boolean candels;
+       int nrOfTables;
+
+       System.out.print("Enter Primary Color : ");
+       color1 = input.nextLine();
+       System.out.print("Enter Secondary Color : ");
+       color2 = input.nextLine();
+       System.out.println("Select Theme");
+       System.out.println("1 - Pirate");
+       System.out.println("2 - Huwaii");
+       String selectedTheme = input.nextLine();
+       switch (selectedTheme) {
+          case "1":
+             eventTheme = "Pirate";
+             break;
+          case "2":
+             eventTheme = "Huwaii";
+             break ;      
+          default:
+          eventTheme = "custom";
+             break;
+       }  
+       System.out.print("Enter Number of Tables : ");
+       nrOfTables = Integer.parseInt(input.nextLine());
+       System.out.println("Do you need Candles ? type : Y/yes or Y/no");
+       String choice = input.nextLine();
+       candels = (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y") ) ? true : false;
+
+       System.out.println("Do you need Ballons ? type : Y/yes or Y/no");
+       choice = input.nextLine();
+       balloons = (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y") ) ? true : false; 
+       theme = new Theme(color1, color2, eventTheme);
+       decoration = new Decoration(theme, balloons, candels, nrOfTables);
+
+    }
 
  
    // String cellNumber;

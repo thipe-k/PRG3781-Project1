@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 
 public class BookingSytem {
-   public static void main(String[] args) {
+   public static void main(String[] args) throws Exception {
       System.out.println("Welcome to Catering Online Booking System");
       System.out.println("Please select one of the following:");
       System.out.println("1 : I am client");
@@ -20,7 +20,7 @@ public class BookingSytem {
       else if (selection == 2)
       {
          AdminMenu menu = new AdminMenu();
-         menu.showBookings();
+         menu.mainMenu();
       }
       
 

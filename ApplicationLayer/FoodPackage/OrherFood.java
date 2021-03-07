@@ -8,17 +8,8 @@ public class OrherFood implements IFood{
     @Override
     public double getPrice(List<String[]>data,Event event) {
         
-
       double total=( Double.parseDouble(data.get(0)[1])*event.getAdultAttendee())+( Double.parseDouble(data.get(0)[1])*event.getAdultAttendee());
-
-      if((event.getAdultAttendee()+event.getMinorAddendee()>40)){
-        double discount = total*0.15;
-         total-=discount ;
-      }
-      
-        return total;
-        
-
+        return total;      
     }
 
     @Override

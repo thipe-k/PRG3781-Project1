@@ -58,6 +58,14 @@ public class Client implements Serializable {
          "" + getCellNumber() + "|" +
          "" + getEmail();
    }
-
+   public String getDetails()
+   {
+      return String.format("%s , %s", lastName,firstName.charAt(0));
+   }
+    
+   public String getContactDetails()
+   {
+      return String.format("Tel : %s or E-mail : %s", cellNumber,email);
+   }
 
 }

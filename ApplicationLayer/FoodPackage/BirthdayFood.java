@@ -11,15 +11,7 @@ public class BirthdayFood implements IFood {
         
 
       double total=( Double.parseDouble(data.get(0)[1])*event.getAdultAttendee())+( Double.parseDouble(data.get(0)[1])*event.getAdultAttendee());
-
-      if((event.getAdultAttendee()+event.getMinorAddendee()>40)){
-        double discount = total*0.15;
-         total-=discount ;
-      }
-      
         return total;
-        
-
     }
     @Override
     public  List<String[]> getAdultMeal() {

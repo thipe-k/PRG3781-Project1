@@ -18,8 +18,7 @@ public class FoodFactory {
          case BABTISMEVENT:
             return new PartyFood();
          case BIRTHDAYEVENT:
-            return new BirthdayFood();
-            
+            return new BirthdayFood();          
          default:
             return null;
       }

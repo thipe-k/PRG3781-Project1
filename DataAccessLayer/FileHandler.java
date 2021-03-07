@@ -80,15 +80,74 @@ public class FileHandler {
       }
       return false;
    }
+
+
+public <obj> void serializeToFile(obj data, File file)
+{
+   if(file.exists())
+   {
+      file.delete();
+   }
+   try(
+      FileOutputStream outputfile = new FileOutputStream(file,true);
+      ObjectOutputStream objectStream = new ObjectOutputStream(outputfile)
+     ) 
+       {   
+            objectStream.writeObject(data); 
+       } catch (Exception e) {
+      System.out.println("An error occured while serializing data {Notification} : " + e.toString() );
+   }
+} 
+
+public Object getSerializedData( File file)
+{  
+   if(!file.exists())
+   {
+      return null;
+   }
+   
+  Object data = null;
+      try (
+         FileInputStream fileInput = new FileInputStream(file);
+         ObjectInputStream objectStream = new ObjectInputStream(fileInput)
+      ) 
+      {     
+         data = objectStream.readObject();  
+      } 
+      catch (Exception e) {
+         System.out.println("An error occured while deserializing data {Notification} :" + e.toString());
+         System.out.println(e.getStackTrace());
+      }
+   
+   return data;
+}
+
+
+
+
+
+
+
+
+
+
    public <obj> void serializeToFile( obj data, String bookingNumber) 
    {
       String fl = "booking"+ bookingNumber + ".ser";
       File fileToDir = new File("bookings", fl);
+      if(fileToDir.exists())
+      {
+         if(fileToDir.isFile())
+         {
+            fileToDir.delete();
+         }
+      }
       try(
          FileOutputStream file = new FileOutputStream(fileToDir,true);
          ObjectOutputStream objectStream = new ObjectOutputStream(file)
         ) 
           {
+            
                objectStream.writeObject(data); 
           } catch (Exception e) {
          System.out.println("An error occured while serializing data : " + e.toString() );
